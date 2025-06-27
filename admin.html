@@ -404,27 +404,34 @@
     }
 
     form.onsubmit = function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const price = document.getElementById('price').value;
-      const pack = document.getElementById('pack').value;
-      const img = document.getElementById('img').value;
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const price = document.getElementById('price').value;
+  const pack = document.getElementById('pack').value;
+  const img = document.getElementById('img').value;
 
-      const newProduct = { name, price, pack, img };
+  const index = document.getElementById('editIndex').value;
+  let newProduct = {
+  name,
+  price: Number(price),
+  pack: Number(pack),
+  img
+};
 
-      const index = document.getElementById('editIndex').value;
-      if (index) {
-        products[+index] = newProduct;
-      } else {
-        products.push(newProduct);
-      }
+  if (index) {
+    newProduct.id = products[index].id; // احتفظ بالـ id القديم
+    products[+index] = newProduct;
+  } else {
+    newProduct.id = Date.now(); // id جديد
+    products.push(newProduct);
+  }
 
-      localStorage.setItem('products', JSON.stringify(products));
-      form.reset();
-      closeModal();
-      renderProducts();
-      showSuccess();
-    };
+  localStorage.setItem('products', JSON.stringify(products));
+  form.reset();
+  closeModal();
+  renderProducts();
+  showSuccess();
+};
 
     function deleteProduct(index) {
       if (confirm('هل أنت متأكد أنك تريد حذف هذا المنتج؟')) {
@@ -500,4 +507,4 @@ function logout() {
 }
   </script>
 </body>
-</html>
+    </html>
